@@ -17,7 +17,7 @@ const Country: React.FC<Props> = ({ countries }) => {
     const [selectedCountry, setSelectedCountry] = useState<Country>();
     const [savedCountry, setSavedCountry] = useState<Country>();
 
-    const onCountryChanged = useCallback((c) => setSelectedCountry(c), []);
+    const onCountryChanged = useCallback((c: Country) => setSelectedCountry(c), []);
     const onCountrySaved = useCallback(() => setSavedCountry(selectedCountry), []);
 
     return (

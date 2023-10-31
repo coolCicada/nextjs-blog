@@ -3,7 +3,7 @@ import { getAllPostIds, getPostData } from '../../lib/posts';
 import Layout from '../../components/layout';
 import utilStyles from '../../styles/utils.module.css';
 
-export async function getStaticProps({ params }) {
+export async function getStaticProps({ params }: any) {
   const postData = await getPostData(params.id);
   return {
     props: {
@@ -12,7 +12,7 @@ export async function getStaticProps({ params }) {
   };
 }
 
-export default function Post({ postData }) {
+export default function Post({ postData }: any) {
   return (
     <Layout home={false}>
       <Head>
