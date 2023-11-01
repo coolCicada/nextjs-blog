@@ -1,6 +1,6 @@
 import { memo, useCallback, useState } from "react"
-import { Country } from './types';
-import CountriesList from "./CountriesList";
+import { Country } from '@/components/country/types';
+import CountriesList from "@/components/country/CountriesList";
 
 interface Props {
     countries: Country[]
