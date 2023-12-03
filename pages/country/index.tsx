@@ -11,7 +11,7 @@ const SelectedCountry = memo(({ country }: { country?: Country, onCountrySaved: 
     return <div>{ country?.name } SelectedCountry list, always re-renders</div>;
 });
 
-const Country: React.FC<Props> = ({ countries }) => {
+const CountryC: React.FC<Props> = ({ countries }) => {
     const [counter, setCounter] = useState<number>(1);
 
     const [selectedCountry, setSelectedCountry] = useState<Country>();
@@ -41,7 +41,7 @@ const Country: React.FC<Props> = ({ countries }) => {
 }
 
 const Page = () => {
-    return <Country countries={[
+    return <CountryC countries={[
         { id: 1, name: "India", flagUrl: "https://flagcdn.com/16x12/ua.png" },
         { id: 2, name: "USA", flagUrl: "https://flagcdn.com/16x12/aw.png" },
         { id: 3, name: "China", flagUrl: "https://flagcdn.com/16x12/as.png" },
