@@ -6,13 +6,15 @@ import styles from './App.module.scss';
 function App() {
     const [content, setContent] = useState('');
     const textarea = useRef<HTMLTextAreaElement>(null);
+    const container = useRef<HTMLDivElement>(null);
 
     function autoResize() {
-        const scrollPosition = window.scrollY; // 保存当前的滚动位置
+        const scrollPosition = container.current!.scrollTop; // 保存当前的滚动位置
+        console.log(container.current)
         textarea.current!.style.height = 'auto';
         textarea.current!.style.height = textarea.current!.scrollHeight + 'px';  // 设置为内容的高度
         console.log(textarea.current!.style.height)
-        window.scrollTo({ top: scrollPosition }); // 恢复滚动位置
+        container.current!.scrollTo({ top: scrollPosition }); // 恢复滚动位置
     }
 
     useEffect(() => {
@@ -35,7 +37,7 @@ function App() {
         return getStr(content);
     }, [content]);
     return (
-        <div className={styles.container}>
+        <div className={styles.container} ref={container}>
             <textarea
                 ref={textarea}
                 value={content}

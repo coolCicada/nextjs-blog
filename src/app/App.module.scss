@@ -1,8 +1,9 @@
 .container {
     display: flex;
-    min-height: 100vh;
+    height: 100vh;
     overflow-y: auto;
     textarea {
+        box-sizing: border-box;
         width: 600px;
         border: none;
         background-color: #f9f9f9;
