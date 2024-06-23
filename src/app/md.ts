@@ -178,7 +178,7 @@ function renderInline(text: string): string {
         strikethrough: /~~(.*?)~~/g,
     };
 
-    text = text.replace(regex.image, '<div style="height: 100px"><img style="height: 100%" src="$2" alt="$1" /><div>');
+    text = text.replace(regex.image, '<img style="height: 100px" src="$2" alt="$1" />');
     text = text.replace(regex.link, '<a href="$2">$1</a>');
     text = text.replace(regex.bold, '<strong>$1</strong>');
     text = text.replace(regex.italic, '<em>$1</em>');

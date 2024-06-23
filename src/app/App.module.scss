@@ -1,7 +1,7 @@
 .container {
     display: flex;
-    height: 100vh;
-
+    min-height: 100vh;
+    overflow-y: auto;
     textarea {
         width: 600px;
         border: none;
@@ -17,12 +17,10 @@
     .preview {
         padding: 1px 20px;
         flex: 1;
-        overflow-y: auto;
 
         :global .code-block {
             background-color: rgb(249, 249, 249);
             padding: 10px;
-            font-size: 12px;
             border-radius: 10px;
 
             pre {
