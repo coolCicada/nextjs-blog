@@ -20,11 +20,13 @@
         overflow-y: auto;
 
         :global .code-block {
-            background-color: antiquewhite;
+            background-color: rgb(249, 249, 249);
             padding: 10px;
+            font-size: 12px;
             border-radius: 10px;
 
             pre {
+                margin: 0;
                 [class*="language-"] {
                     white-space: pre-wrap;
                     word-wrap: break-word;
@@ -49,8 +51,6 @@
         blockquote {
             margin-left: 0;
             border-left: 4px solid #ccc;
-            /* 左侧边框 */
-            margin: 20px;
             /* 外边距 */
             padding: 10px 20px;
             /* 内边距 */

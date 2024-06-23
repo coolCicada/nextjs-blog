@@ -25,7 +25,7 @@ function tokenize(markdown: string): Token[] {
         bold: /\*\*(.*?)\*\*/g,
         italic: /\*(.*?)\*/g,
         link: /\[([^\]]+)\]\(([^)]+)\)/g,
-        image: /!\[([^\]]*)\]\(([^)]+)\)/g,
+        image: /!\[([^\]]*)\]\(([^)]+)\)/g
     };
 
     let inCodeBlock = false;
@@ -108,7 +108,6 @@ function parse(tokens: Token[]): MarkdownNode {
                 if (currentNode.type !== 'table') {
                     isTableHeader = true;
                     const tableNode = new MarkdownNode('table');
-                    console.log('currentNode:', currentNode);
                     currentNode.children.push(tableNode);
                     currentNode = tableNode;
                 }
@@ -116,6 +115,10 @@ function parse(tokens: Token[]): MarkdownNode {
                 break;
             case 'tableSeparator':
                 isTableHeader = false;
+                break;
+            case 'strikethrough':
+                const strikethroughNode = new MarkdownNode('strikethrough', token.value);
+                root.children.push(strikethroughNode);
                 break;
             default:
                 throw new Error(`Unknown token type: ${token.type}`);
@@ -155,7 +158,6 @@ function render(node: MarkdownNode): string {
             const language = node.value || 'plaintext';
             const code = node.children.map(render).join('\n');
             const highlightedCode = Prism.highlight(code, Prism.languages[language], language);
-            console.log('code:', code, highlightedCode)
             return `<div class="code-block"><pre><code class="language-${language}">${highlightedCode}</code></pre></div>`;
         case 'codeLine':
             return node.value;
@@ -173,6 +175,7 @@ function renderInline(text: string): string {
         italic: /\*(.*?)\*/g,
         link: /\[([^\]]+)\]\(([^)]+)\)/g,
         image: /!\[([^\]]*)\]\(([^)]+)\)/g,
+        strikethrough: /~~(.*?)~~/g,
     };
 
     text = text.replace(regex.image, '<div style="height: 100px"><img style="height: 100%" src="$2" alt="$1" /><div>');
@@ -180,13 +183,13 @@ function renderInline(text: string): string {
     text = text.replace(regex.bold, '<strong>$1</strong>');
     text = text.replace(regex.italic, '<em>$1</em>');
     text = text.replace(regex.inlineCode, '<code>$1</code>');
+    text = text.replace(regex.strikethrough, '<del>$1</del>');
 
     return text;
 }
 
 function renderTable(node: MarkdownNode): string {
     const headerHtml = node.children[0].value.split('|').map(header => header.trim()).filter(Boolean).map(header => `<th>${header}</th>`).join('');
-    console.log('headerHtml:', headerHtml);
     const rowsHtml = node.children.slice(1).map(nt => `<tr>${nt.value.split('|').map(header => header.trim()).filter(Boolean).map(header => `<td>${header}</td>`).join('')}<tr>`).join('')
     return `<table><thead><tr>${headerHtml}</tr></thead><tbody>${rowsHtml}</tbody></table>`;
 }
@@ -194,7 +197,6 @@ function renderTable(node: MarkdownNode): string {
 export function getStr(markdown: string) {
     // Tokenize, parse, and render the Markdown
     const tokens = tokenize(markdown);
-    console.log('tokens:', tokens);
     const ast = parse(tokens);
     console.log('ast:', ast);
     const html = render(ast);
