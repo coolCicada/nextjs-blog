@@ -19,7 +19,7 @@ function App() {
 
     useEffect(() => {
         async function getStrFromFile() {
-            const api = await fetch('/api/item')
+            const api = await fetch('/markdown-render/api/item')
             const resp = await api.json();
             setContent(resp.content);
         }
