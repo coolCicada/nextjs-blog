@@ -1,6 +1,8 @@
 import Prism from 'prismjs';
 import 'prismjs/themes/prism.css';
-class Token {
+import { Tokenizer } from './tokenlize';
+import { BlockquoteStrategy, CodeBlockStrategy, HeaderStrategy, HrStrategy, ListStrategy, TableStrategy } from './strategies';
+export class Token {
     constructor(public type: string, public value: string) {}
 }
 
@@ -21,11 +23,6 @@ function tokenize(markdown: string): Token[] {
         codeBlock: /^```(\w*)$/,
         table: /^\|.*\|$/,
         tableSeparator: /^\|(-{3,}\|)+$/,
-        inlineCode: /`([^`]+)`/,
-        bold: /\*\*(.*?)\*\*/g,
-        italic: /\*(.*?)\*/g,
-        link: /\[([^\]]+)\]\(([^)]+)\)/g,
-        image: /!\[([^\]]*)\]\(([^)]+)\)/g
     };
 
     let inCodeBlock = false;
@@ -194,9 +191,22 @@ function renderTable(node: MarkdownNode): string {
     return `<table><thead><tr>${headerHtml}</tr></thead><tbody>${rowsHtml}</tbody></table>`;
 }
 
+function generateTokens(markdown: string) {
+    const tokenlizer = new Tokenizer();
+    tokenlizer.addStrategy(new HeaderStrategy());
+    tokenlizer.addStrategy(new HrStrategy());
+    tokenlizer.addStrategy(new ListStrategy());
+    tokenlizer.addStrategy(new BlockquoteStrategy());
+    tokenlizer.addStrategy(new CodeBlockStrategy());
+    tokenlizer.addStrategy(new TableStrategy());
+    return tokenlizer.tokenize(markdown);
+}
+
 export function getStr(markdown: string) {
     // Tokenize, parse, and render the Markdown
-    const tokens = tokenize(markdown);
+    // const tokens = tokenize(markdown);
+    const tokens = generateTokens(markdown);
+    console.log('tokens:', tokens);
     const ast = parse(tokens);
     console.log('ast:', ast);
     const html = render(ast);
