@@ -9,57 +9,9 @@ export class Token {
 class MarkdownNode {
     children: MarkdownNode[] = [];
     constructor(public type: string, public value: string = '') {}
-}
-
-function tokenize(markdown: string): Token[] {
-    const tokens: Token[] = [];
-    const lines = markdown.split('\n');
-    const regex = {
-        header: /^(#{1,6})\s+(.*)$/,
-        hr: /^-{3,}$/,
-        list: /^\-{1}\s+(.*)$/,
-        blockquote: /^>\s+(.*)$/,
-        mainInfoBlock: /^>{3}\s+(.*)$/,
-        codeBlock: /^```(\w*)$/,
-        table: /^\|.*\|$/,
-        tableSeparator: /^\|(-{3,}\|)+$/,
-    };
-
-    let inCodeBlock = false;
-    lines.forEach(line => {
-        if (inCodeBlock) {
-            if (regex.codeBlock.test(line)) {
-                inCodeBlock = false;
-                tokens.push(new Token('codeBlockEnd', ''));
-            } else {
-                tokens.push(new Token('codeLine', line));
-            }
-        } else {
-            if (regex.codeBlock.test(line)) {
-                inCodeBlock = true;
-                tokens.push(new Token('codeBlockStart', line.match(regex.codeBlock)![1]));
-            } else if (regex.header.test(line)) {
-                const match = line.match(regex.header)!;
-                tokens.push(new Token(`header${match[1].length}`, match[2]));
-            } else if (regex.hr.test(line)) {
-                tokens.push(new Token('hr', ''));
-            } else if (regex.list.test(line)) {
-                const match = line.match(regex.list)!;
-                tokens.push(new Token('listItem', match[1]));
-            }else if (regex.blockquote.test(line)) {
-                const match = line.match(regex.blockquote)!;
-                tokens.push(new Token('blockquote', match[1]));
-            } else if (regex.tableSeparator.test(line)) {
-                tokens.push(new Token('tableSeparator', ''));
-            } else if (regex.table.test(line)) {
-                tokens.push(new Token('tableRow', line));
-            } else {
-                tokens.push(new Token('paragraph', line));
-            }
-        }
-    });
-
-    return tokens;
+    addChild(node: MarkdownNode) {
+        this.children.push(node);
+    }
 }
 
 function parse(tokens: Token[]): MarkdownNode {
@@ -68,7 +20,6 @@ function parse(tokens: Token[]): MarkdownNode {
     let isTableHeader = false;
 
     tokens.forEach(token => {
-
         switch (token.type) {
             case 'header1':
             case 'header2':
@@ -80,42 +31,44 @@ function parse(tokens: Token[]): MarkdownNode {
             case 'blockquote':
             case 'hr':
                 currentNode = root;
-                currentNode.children.push(new MarkdownNode(token.type, token.value));
+                currentNode.addChild(new MarkdownNode(token.type, token.value));
                 break;
             case 'listItem':
                 if (currentNode.type !== 'list') {
                     const listNode = new MarkdownNode('list');
-                    root.children.push(listNode);
+                    currentNode.addChild(listNode);
                     currentNode = listNode;
                 }
                 currentNode.children.push(new MarkdownNode('listItem', token.value));
                 break;
             case 'codeBlockStart':
+                currentNode = root;
                 const codeBlockNode = new MarkdownNode('codeBlock', token.value);
-                root.children.push(codeBlockNode);
+                currentNode.addChild(codeBlockNode);
                 currentNode = codeBlockNode;
                 break;
             case 'codeBlockEnd':
                 currentNode = root;
                 break;
             case 'codeLine':
-                currentNode.children.push(new MarkdownNode('codeLine', token.value));
+                currentNode.addChild(new MarkdownNode('codeLine', token.value));
                 break;
             case 'tableRow':
                 if (currentNode.type !== 'table') {
                     isTableHeader = true;
                     const tableNode = new MarkdownNode('table');
-                    currentNode.children.push(tableNode);
+                    currentNode.addChild(tableNode);
                     currentNode = tableNode;
                 }
-                currentNode.children.push(new MarkdownNode(isTableHeader ? 'tableHeader' : 'tableRow', token.value));
+                currentNode.addChild(new MarkdownNode(isTableHeader ? 'tableHeader' : 'tableRow', token.value));
                 break;
             case 'tableSeparator':
                 isTableHeader = false;
                 break;
             case 'strikethrough':
+                currentNode = root;
                 const strikethroughNode = new MarkdownNode('strikethrough', token.value);
-                root.children.push(strikethroughNode);
+                currentNode.children.push(strikethroughNode);
                 break;
             default:
                 throw new Error(`Unknown token type: ${token.type}`);
