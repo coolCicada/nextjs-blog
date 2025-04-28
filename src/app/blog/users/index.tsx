@@ -1,6 +1,5 @@
 import { sql } from '@/app/db'
 
-
 export default async function User() {
     const r = await sql`SELECT * FROM customers`;
     return (

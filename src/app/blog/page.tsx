@@ -1,4 +1,5 @@
 import Users from './users/index'
+import UseShadcn from '@/app/components/use-shadcn'
 
 export const dynamic = 'force-dynamic';
 
@@ -18,6 +19,7 @@ export default function Blog() {
                 </span>
             </div>
             <Users />
+            <UseShadcn />
         </div>
     )
 }
