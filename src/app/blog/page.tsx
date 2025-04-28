@@ -1,4 +1,3 @@
-import { Suspense } from "react";
 import Users from './users/index'
 
 export default function Blog() {
@@ -16,9 +15,7 @@ export default function Blog() {
                     <span>2025</span>
                 </span>
             </div>
-            <Suspense fallback={<div>loading...</div>}>
-                <Users />
-            </Suspense>
+            <Users />
         </div>
     )
 }
