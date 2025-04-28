@@ -3,8 +3,6 @@ import UseShadcn from '@/app/components/use-shadcn'
 
 export const dynamic = 'force-dynamic';
 
-export const dynamic = 'force-dynamic';
-
 export default function Blog() {
     return (
         <div className="flex flex-col items-center gap-6 p-7 md:flex-row md:gap-8 rounded-2xl">
