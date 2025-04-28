@@ -1,3 +1,5 @@
+export const dynamic = 'force-dynamic';
+
 import { sql } from '@/app/db'
 
 export default async function User() {
