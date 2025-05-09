@@ -4,11 +4,15 @@
 import { useRouter, usePathname } from 'next/navigation'
 import { useCallback } from 'react'
 import clsx from 'clsx'
+import Image from 'next/image';
+import Home from '@/app/static/home.svg';
+import Match from '@/app/static/match.svg';
+import Person from '@/app/static/person.svg';
 
 const tabs = [
-  { label: '主页', path: '/' },
-  { label: '比赛', path: '/matches' },
-  { label: '个人', path: '/personal' },
+  { label: <Image className='w-6' src={Home} alt="Home" />, path: '/' },
+  { label: <Image className='w-6' src={Match} alt="Match" />, path: '/matches' },
+  { label: <Image className='w-6' src={Person} alt="Person" />, path: '/personal' },
 ]
 
 export default function TabBar() {
@@ -20,13 +24,13 @@ export default function TabBar() {
   }, [router])
 
   return (
-    <div className="bottom-0 w-full bg-white border-t flex justify-around py-2">
+    <div className="bottom-0 h-14 w-full bg-white border-t flex justify-around py-2">
       {tabs.map((tab) => (
         <button
           key={tab.path}
           onClick={() => handleClick(tab.path)}
           className={clsx(
-            'flex-1 text-center py-2',
+            'flex justify-center',
             pathname === tab.path ? 'text-blue-600 font-bold' : 'text-gray-500'
           )}
         >

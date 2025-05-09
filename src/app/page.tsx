@@ -8,7 +8,7 @@ export const dynamic = 'force-dynamic';
 
 export default function Blog() {
     return (
-        <div className="flex flex-col items-center gap-6 p-7 md:gap-8 rounded-2xl h-full">
+        <div className="flex flex-col items-center gap-6 p-7 pb-0 md:gap-8 rounded-2xl h-full">
             <div className='max-w-96 mx-auto'>
                 <Image className="shadow-xl rounded-md w-full" src={WTT} alt="123" />
             </div>
