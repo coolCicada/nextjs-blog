@@ -6,9 +6,9 @@ import { useCallback } from 'react'
 import clsx from 'clsx'
 
 const tabs = [
-  { label: 'Home', path: '/' },
-  { label: 'Profile', path: '/profile' },
-  { label: 'Settings', path: '/settings' },
+  { label: '主页', path: '/' },
+  { label: '比赛', path: '/matches' },
+  { label: '个人', path: '/personal' },
 ]
 
 export default function TabBar() {
