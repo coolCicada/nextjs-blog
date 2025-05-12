@@ -1,6 +1,9 @@
 "use client";
-import { Button } from '@/components/ui/button';
-import {use, useCallback, useState} from 'react';
+// import { Button } from '@/components/ui/button';
+import { use } from 'react';
+import Image from 'next/image';
+import LeaderBoard from '@/app/static/leaderboard.svg';
+import dayjs from 'dayjs';
 
 export interface Game {
     id: string;
@@ -14,28 +17,32 @@ interface GamesProps {
 
 const Games = ({ gamesPromise }: GamesProps) => {
     const games = use(gamesPromise)
-    const [data, setData] = useState<Game[]>([]);
-    const getData = useCallback(async () => {
-        const r = await fetch('/api/test')
-        setData(await r.json());
-    }, [setData]);
+    // const [data, setData] = useState<Game[]>([]);
+    // const getData = useCallback(async () => {
+    //     const r = await fetch('/api/test')
+    //     setData(await r.json());
+    // }, [setData]);
     return (
         <div>
-            <div>Games</div>
             {
                 games.map(item => (
-                    <div key={item.id}>
-                        <div>{item.match_name}</div>
-                        <div>{item.match_time.toDateString()}</div>
+                    <div key={item.id} className='flex border-b'>
+                        <div className='w-24 h-24 flex items-center justify-center'>
+                            <Image className='w-8' src={LeaderBoard} alt="LeaderBoard" />
+                        </div>
+                        <div className='flex flex-col justify-center'>
+                            <div>{item.match_name}</div>
+                            <div>{dayjs(item.match_time).format('YYYY-MM-DD HH:mm:ss')}</div>
+                        </div>
                     </div>
                 ))
             }
-            <Button onClick={() => getData()}>获取数据</Button>
-            <div>
+            {/* <Button onClick={() => getData()}>获取数据</Button> */}
+            {/* <div>
                 {data.map(item => (
                     <div key={item.id}>{item.match_name}</div>
                 ))}
-            </div>
+            </div> */}
         </div>
     )
 }
