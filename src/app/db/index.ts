@@ -10,7 +10,18 @@ const getAllMatches = async () => {
     return await sql<Game[]>`SELECT * FROM matches`;
 }
 
+const getMatchById = async (id: string) => {
+    try {
+        const res = await sql<Game[]>`SELECT * FROM matches WHERE id = ${id}`;
+        return res[0];
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    } catch (error) {
+        return null;    
+    }
+}
+
 export {
     getAllUsers,
-    getAllMatches
+    getAllMatches,
+    getMatchById
 }
