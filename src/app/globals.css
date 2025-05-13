@@ -116,11 +116,14 @@
   * {
     @apply border-border outline-ring/50;
   }
+
   body {
     @apply bg-background text-foreground;
   }
 }
 
-html, body, main {
+html,
+body,
+main {
   height: 100%;
 }

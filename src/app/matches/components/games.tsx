@@ -4,6 +4,7 @@ import { use } from 'react';
 import Image from 'next/image';
 import LeaderBoard from '@/app/static/leaderboard.svg';
 import dayjs from 'dayjs';
+import Link from 'next/link';
 
 export interface Game {
     id: string;
@@ -31,7 +32,7 @@ const Games = ({ gamesPromise }: GamesProps) => {
                             <Image className='w-8' src={LeaderBoard} alt="LeaderBoard" />
                         </div>
                         <div className='flex flex-col justify-center'>
-                            <div>{item.match_name}</div>
+                            <Link href={`/matches/${item.id}`} className="text-blue-500 text-sm hover:underline">{item.match_name}</Link>
                             <div>{dayjs(item.match_time).format('YYYY-MM-DD HH:mm:ss')}</div>
                         </div>
                     </div>
