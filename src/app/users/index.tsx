@@ -1,6 +1,6 @@
 export const dynamic = 'force-dynamic';
 
-import { getAllUsers } from '@/app/db'
+import { getAllUsers } from '@/app/db/matches'
 import {
     Table,
     TableBody,

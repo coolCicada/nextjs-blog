@@ -1,6 +1,7 @@
-import { getMatchById } from "@/app/db";
-import { Input } from "@/components/ui/input";
-import dayjs from 'dayjs';
+import { getMatchById } from "@/app/db/matches";
+import Form from "./Form";
+import { Suspense } from "react";
+
 
 export const dynamic = 'force-dynamic';
 
@@ -8,17 +9,12 @@ interface Params {
     id: string;
 }
 
-const DetailEdit = async({ params }: { params: Promise<Params> }) => {
-    const r = await getMatchById((await params).id)
+const DetailEdit = async ({ params }: { params: Promise<Params> }) => {
+    const r = getMatchById((await params).id)
     return (
-        <div>
-            {r && <>
-                <p>
-                    <Input defaultValue={r.match_name}/>
-                </p>
-                <p>{dayjs(r.match_time).format('YYYY-MM-DD HH:mm:ss')}</p>
-            </>}
-        </div>
+        <Suspense fallback={<p>Loading Comments...</p>}>
+            <Form formPromise={r} />
+        </Suspense>
     )
 }
 

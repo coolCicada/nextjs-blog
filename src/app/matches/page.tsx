@@ -1,6 +1,6 @@
 import { Suspense } from "react";
 import Games from "./components/games";
-import { getAllMatches } from "../db";
+import { getAllMatches } from "@/app/db/matches";
 
 export const dynamic = 'force-dynamic';
 
