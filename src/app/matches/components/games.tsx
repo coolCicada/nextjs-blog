@@ -18,11 +18,6 @@ interface GamesProps {
 
 const Games = ({ gamesPromise }: GamesProps) => {
     const games = use(gamesPromise)
-    // const [data, setData] = useState<Game[]>([]);
-    // const getData = useCallback(async () => {
-    //     const r = await fetch('/api/test')
-    //     setData(await r.json());
-    // }, [setData]);
     return (
         <div>
             {
@@ -38,12 +33,6 @@ const Games = ({ gamesPromise }: GamesProps) => {
                     </div>
                 ))
             }
-            {/* <Button onClick={() => getData()}>获取数据</Button> */}
-            {/* <div>
-                {data.map(item => (
-                    <div key={item.id}>{item.match_name}</div>
-                ))}
-            </div> */}
         </div>
     )
 }
