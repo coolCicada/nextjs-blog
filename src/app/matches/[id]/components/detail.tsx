@@ -1,3 +1,4 @@
+'use client';
 import { use } from "react";
 import { Game } from "../../components/games";
 import dayjs from "dayjs";
