@@ -2,49 +2,101 @@
 import { Input } from "@/components/ui/input";
 import DateTimePickerC from './components/datetime-picker';
 import { Game } from "../../components/games";
-import { use, useCallback, useState } from "react";
+import { use, useState } from "react";
 import { Button } from '@/components/ui/button';
 import { useRouter } from "next/navigation";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import {
+    Form,
+    FormControl,
+    FormDescription,
+    FormField,
+    FormItem,
+    FormLabel,
+    FormMessage,
+} from "@/components/ui/form"
 
-const Form = ({ formPromise }: { formPromise: Promise<Game | null> }) => {
+const formSchema = z.object({
+    id: z.string(),
+    match_name: z.string().min(2, {
+        message: "至少输入2个字符",
+    }),
+    match_time: z.date(),
+})
+
+const FormC = ({ formPromise }: { formPromise: Promise<Game | null> }) => {
     const r = use(formPromise);
-    const [matchInfo, setMatchInfo] = useState<Game>(r || { match_name: '', match_time: new Date(), id: '' });
     const [loading, setLoading] = useState(false);
     const router = useRouter()
-    const save = useCallback(async () => {
+
+    const form = useForm<z.infer<typeof formSchema>>({
+        resolver: zodResolver(formSchema),
+        defaultValues: {
+            match_name: r?.match_name,
+            match_time: r?.match_time,
+            id: r?.id
+        },
+    });
+
+    const onSubmit = async (values: z.infer<typeof formSchema>) => {
         setLoading(true);
-        const response = await fetch(`/api/matches/${matchInfo.id}`, {
+        const response = await fetch(`/api/matches/${values.id}`, {
             method: 'PUT',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(matchInfo),
-          });
+            body: JSON.stringify(values),
+        });
         const res = await response.json();
         if (res.msg === 'success') {
-            router.replace('../')
+            router.back();
+            setTimeout(() => {
+                router.refresh();
+            }, 100);
         } else {
             alert(res.msg)
         }
         setLoading(false);
-    }, [matchInfo, router]);
+    }
+
     return (
-        <div className="h-full px-4 py-2 flex flex-col">
-            <div className="flex-1">
-                {r && <>
-                    <p className="py-2">
-                        <label className="text-sm pb-2">比赛名称</label>
-                        <Input defaultValue={matchInfo?.match_name} onBlur={e => setMatchInfo({ ...matchInfo, match_name: e.target.value })} />
-                    </p>
-                    <p className="py-2">
-                        <label className="text-sm pb-2">比赛时间</label>
-                        <DateTimePickerC date={matchInfo?.match_time} onChange={e => setMatchInfo({ ...matchInfo, match_time: e || new Date() })} />
-                    </p>
-                </>}
-            </div>
-            <div>
-                <Button className="w-full" disabled={loading} onClick={save}>保存</Button>
-            </div>
+        <div className="flex flex-1 flex-col overflow-auto">
+            <Form {...form}>
+                <form id="match-form" onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 overflow-auto flex-1">
+                    <FormField
+                        control={form.control}
+                        name="match_name"
+                        render={({ field }) => (
+                            <FormItem>
+                                <FormLabel>比赛名称</FormLabel>
+                                <FormControl>
+                                    <Input placeholder="请输入比赛名称" {...field} />
+                                </FormControl>
+                                <FormMessage />
+                            </FormItem>
+                        )}
+                    />
+                    <FormField
+                        control={form.control}
+                        name="match_time"
+                        render={({ field }) => (
+                            <FormItem>
+                                <FormLabel>比赛时间</FormLabel>
+                                <FormControl>
+                                    <DateTimePickerC {...field} />
+                                </FormControl>
+                                <FormDescription>
+                                    时区为当地时区
+                                </FormDescription>
+                                <FormMessage />
+                            </FormItem>
+                        )}
+                    />
+                </form>
+                <Button form="match-form" type="submit" disabled={loading}>提交</Button>
+            </Form>
         </div>
     )
 }
 
-export default Form;
+export default FormC;
