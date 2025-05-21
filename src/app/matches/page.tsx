@@ -12,7 +12,7 @@ const Matches = async () => {
             <div className="shrink-0">
                 <TopBar title="比赛列表" />
             </div>
-            <Suspense fallback={<p>Loading Comments...</p>}>
+            <Suspense fallback={<p>列表加载中...</p>}>
                 <Games gamesPromise={gamesPromise} />
             </Suspense>
         </div>
