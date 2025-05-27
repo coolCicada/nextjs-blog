@@ -22,7 +22,7 @@ const Games = ({ gamesPromise }: GamesProps) => {
         <div>
             {
                 games.map(item => (
-                    <div key={item.id} className='flex border-b'>
+                    <div key={item.id} className='flex border-b last:border-b-0'>
                         <div className='w-24 h-24 flex items-center justify-center'>
                             <Image className='w-8' src={LeaderBoard} alt="LeaderBoard" />
                         </div>

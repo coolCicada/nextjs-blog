@@ -28,6 +28,10 @@ const editMatch = async (item: Game) => {
     return await sql`UPDATE matches SET match_name = ${item.match_name}, match_time = ${item.match_time} WHERE id = ${item.id}`
 }
 
+const deleteMatchById = async(id: string) => {
+    return await sql`DELETE FROM matches WHERE id = ${id}`
+}
+
 const addOneMatch = async (item: Game) => {
     return await sql`INSERT INTO matches (match_name, match_time) VALUES (${item.match_name}, ${item.match_time})`
 }
@@ -37,5 +41,6 @@ export {
     getAllMatches,
     getMatchById,
     editMatch,
-    addOneMatch
+    addOneMatch,
+    deleteMatchById
 }
