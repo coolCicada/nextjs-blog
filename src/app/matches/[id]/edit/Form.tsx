@@ -41,7 +41,6 @@ const FormC = ({ formPromise }: { formPromise: Promise<Game | null> }) => {
     });
 
     const onSubmit = async (values: z.infer<typeof formSchema>) => {
-        console.log('onSubmit:', onSubmit);
         setLoading(true);
         const response = await fetch(`/api/matches`, {
             method: 'POST',
