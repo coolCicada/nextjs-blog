@@ -22,12 +22,20 @@ const getMatchById = async (id: string) => {
 }
 
 const editMatch = async (item: Game) => {
+    if (!item.id) {
+        return null
+    }
     return await sql`UPDATE matches SET match_name = ${item.match_name}, match_time = ${item.match_time} WHERE id = ${item.id}`
+}
+
+const addOneMatch = async (item: Game) => {
+    return await sql`INSERT INTO matches (match_name, match_time) VALUES (${item.match_name}, ${item.match_time})`
 }
 
 export {
     getAllUsers,
     getAllMatches,
     getMatchById,
-    editMatch
+    editMatch,
+    addOneMatch
 }

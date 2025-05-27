@@ -19,7 +19,7 @@ import {
 } from "@/components/ui/form"
 
 const formSchema = z.object({
-    id: z.string(),
+    id: z.string().optional(),
     match_name: z.string().min(2, {
         message: "至少输入2个字符",
     }),
@@ -41,9 +41,10 @@ const FormC = ({ formPromise }: { formPromise: Promise<Game | null> }) => {
     });
 
     const onSubmit = async (values: z.infer<typeof formSchema>) => {
+        console.log('onSubmit:', onSubmit);
         setLoading(true);
-        const response = await fetch(`/api/matches/${values.id}`, {
-            method: 'PUT',
+        const response = await fetch(`/api/matches`, {
+            method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(values),
         });
