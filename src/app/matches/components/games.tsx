@@ -7,7 +7,7 @@ import dayjs from 'dayjs';
 import Link from 'next/link';
 
 export interface Game {
-    id: string;
+    id?: string;
     match_time: Date;
     match_name: string;
 }
