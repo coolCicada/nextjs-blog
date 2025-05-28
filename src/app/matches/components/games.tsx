@@ -2,7 +2,7 @@
 // import { Button } from '@/components/ui/button';
 import { use } from 'react';
 import Image from 'next/image';
-import LeaderBoard from '@/app/static/leaderboard.svg';
+import LeaderBoard from '@/app/static/svg/leaderboard.svg';
 import dayjs from 'dayjs';
 import Link from 'next/link';
 

@@ -1,18 +1,19 @@
-// components/TabBar.tsx
 'use client'
 
 import { useRouter, usePathname } from 'next/navigation'
 import { useCallback } from 'react'
 import clsx from 'clsx'
 import Image from 'next/image';
-import Home from '@/app/static/home.svg';
-import Match from '@/app/static/match.svg';
-import Person from '@/app/static/person.svg';
+import Home from '@/app/static/svg/home.svg';
+import Match from '@/app/static/svg/match.svg';
+import Person from '@/app/static/svg/person.svg';
+import Config from '@/app/static/svg/config.svg';
 
 const tabs = [
   { label: <Image className='w-6' src={Home} alt="Home" />, path: '/' },
   { label: <Image className='w-6' src={Match} alt="Match" />, path: '/matches' },
   { label: <Image className='w-6' src={Person} alt="Person" />, path: '/personal' },
+  { label: <Image className='w-6' src={Config} alt="Config" />, path: '/config' },
 ]
 
 export default function TabBar() {
