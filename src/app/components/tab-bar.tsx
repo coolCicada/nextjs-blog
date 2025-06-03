@@ -13,7 +13,7 @@ const tabs = [
   { label: <Image className='w-6' src={Home} alt="Home" />, path: '/' },
   { label: <Image className='w-6' src={Match} alt="Match" />, path: '/matches' },
   { label: <Image className='w-6' src={Person} alt="Person" />, path: '/personal' },
-  { label: <Image className='w-6' src={Config} alt="Config" />, path: '/config' },
+  { label: <Image className='w-6' src={Config} alt="Config" />, path: '/own-configs' },
 ]
 
 export default function TabBar() {
