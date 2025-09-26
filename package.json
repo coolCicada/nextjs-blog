@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@hookform/resolvers": "^5.0.1",
+    "@monaco-editor/react": "^4.7.0",
     "@radix-ui/react-alert-dialog": "^1.1.14",
     "@radix-ui/react-label": "^2.1.6",
     "@radix-ui/react-popover": "^1.1.13",
@@ -27,7 +28,12 @@
     "react-day-picker": "9.6.7",
     "react-dom": "^19.0.0",
     "react-hook-form": "^7.56.3",
+    "react-resizable-panels": "^3.0.6",
+    "simple-peer": "^9.11.1",
+    "socket.io": "^4.8.1",
+    "socket.io-client": "^4.8.1",
     "tailwind-merge": "^3.2.0",
+    "uuid": "^13.0.0",
     "zod": "^3.25.7"
   },
   "devDependencies": {
@@ -37,6 +43,8 @@
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "@types/simple-peer": "^9.11.8",
+    "@types/uuid": "^11.0.0",
     "eslint": "^9.25.1",
     "eslint-config-next": "15.3.1",
     "eslint-config-prettier": "^10.1.2",
